@@ -19,9 +19,9 @@ public class PlayerController : MonoBehaviour
     Vector2 moveInput;
     Vector3 forceVector;
     float velocity;
-    float walkSpeed = 200;
-    float sprintSpeed = 300;
-    float crouchSpeed = 150;
+    float walkSpeed = 20;
+    float sprintSpeed = 30;
+    float crouchSpeed = 15;
     private bool isGrounded = true;
     private bool isSprinting = false;
     public bool isCrouching = false;
@@ -77,12 +77,6 @@ public class PlayerController : MonoBehaviour
     }
 
 
-    void Update()
-    {
-        Checkgrounded();
-        isIdle = !isMoving;
-    }
-
     void FixedUpdate()
     {
         Move();
@@ -91,7 +85,7 @@ public class PlayerController : MonoBehaviour
 
     private void HandleSoundFX()
     {
-        if (isMoving && isGrounded)
+        if (isMoving)
         {
             currentMoveVolume = defaultMoveVolume;
             if (isSprinting)
@@ -118,11 +112,6 @@ public class PlayerController : MonoBehaviour
                 stepTimer = 0f;
             }
         }
-    }
-
-    private void Checkgrounded()
-    {
-                isGrounded = Physics.Raycast(mySphereCollider.transform.position, Vector3.down, mySphereCollider.radius + 0.05f, ground);
     }
 
 
@@ -180,18 +169,16 @@ public class PlayerController : MonoBehaviour
     }
     public void Crouch(InputAction.CallbackContext context)
     {
-        if (context.performed && !isSprinting && isGrounded)
+        if (context.performed && !isSprinting)
         {
             isCrouching = !isCrouching;
             if (isCrouching)
             {
-                Debug.Log("i hate niggers");
                 myCapsuleCollider.height = myCapsuleColliderCrouchHeight;
                 myCapsuleCollider.center = new Vector3(0, myCapsuleColliderCrouchOffset, 0);
             }
             if (!isCrouching)
             {
-                 Debug.Log("i dont hate niggers");
                 myCapsuleCollider.height = myCapsuleColliderHeight;
                 myCapsuleCollider.center = new Vector3(0, 0, 0);
             }
