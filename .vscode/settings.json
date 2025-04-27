@@ -56,5 +56,5 @@
         "temp/": true,
         "Temp/": true
     },
-    "dotnet.defaultSolution": "Silent Woods.sln"
+    "dotnet.defaultSolution": "Silent-Woods.sln"
 }
