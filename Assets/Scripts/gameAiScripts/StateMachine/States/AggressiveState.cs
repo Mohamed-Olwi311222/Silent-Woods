@@ -5,11 +5,13 @@ public class AggressiveState : IState
 {
     public NavMeshAgent entity;
     public Transform playerTransform;
+    private Animator animator;
 
-    public AggressiveState(NavMeshAgent entity, Transform playerTransform)
+    public AggressiveState(NavMeshAgent entity, Transform playerTransform, Animator animator)
     {
         this.entity = entity;
         this.playerTransform = playerTransform;
+        this.animator = animator;
     }
     public void FrameUpdate()
     {
@@ -21,7 +23,9 @@ public class AggressiveState : IState
     {
         Debug.Log("Aggressive State Enter");
         entity.isStopped = false;
-        entity.speed = 12;
+        entity.speed = 5;
+        animator.SetBool("isRunning", true);
+        animator.SetBool("isPatroling", false);
     }
 
     public void OnExitState()

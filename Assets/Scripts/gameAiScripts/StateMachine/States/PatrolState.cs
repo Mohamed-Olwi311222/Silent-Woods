@@ -7,12 +7,14 @@ public class PatrolState : IState
     public Vector3 playerPosition;
     public Transform[] patrolPoints;
     private int patrolPointsIdx;
+    private Animator animator;
 
-    public PatrolState(NavMeshAgent entity, Vector3 playerPosition, Transform[] patrolPoints)
+    public PatrolState(NavMeshAgent entity, Vector3 playerPosition, Transform[] patrolPoints, Animator animator)
     {
         this.entity = entity;
         this.playerPosition = playerPosition;
         this.patrolPoints = patrolPoints;
+        this.animator = animator;
     }
     public void FrameUpdate()
     {
@@ -28,7 +30,7 @@ public class PatrolState : IState
     {
         if (patrolPoints.Length == 0)
             return;
-        entity.speed = 10;
+        entity.speed = 0.5f;
         entity.SetDestination(patrolPoints[patrolPointsIdx].position);
         patrolPointsIdx = (patrolPointsIdx + 1) % patrolPoints.Length;
         return;
@@ -38,6 +40,8 @@ public class PatrolState : IState
     {
         Debug.Log("Patrol State Enter");
         entity.isStopped = false;
+        animator.SetBool("isRunning", false);
+        animator.SetBool("isPatroling", true);
     }
 
     public void OnExitState()

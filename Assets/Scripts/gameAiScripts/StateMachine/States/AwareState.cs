@@ -6,11 +6,11 @@ public class AwareState : IState
     public NavMeshAgent entity;
     public Vector3 playerPosition;
     EntityBehaviour entityBehaviour;
-    BacteriaBehaviour bacteria;
+    MonsterBehaviour bacteria;
     float customDuration = 6.5f; //Affects entity rotation
 
 
-    public AwareState(NavMeshAgent entity, Vector3 playerPosition, EntityBehaviour entityBehaviour, BacteriaBehaviour bacteria)
+    public AwareState(NavMeshAgent entity, Vector3 playerPosition, EntityBehaviour entityBehaviour, MonsterBehaviour bacteria)
     {
         this.entity = entity;
         this.playerPosition = playerPosition;

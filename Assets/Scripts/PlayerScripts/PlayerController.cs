@@ -19,9 +19,9 @@ public class PlayerController : MonoBehaviour
     Vector2 moveInput;
     Vector3 forceVector;
     float velocity;
-    float walkSpeed = 5000;
-    float sprintSpeed = 7500;
-    float crouchSpeed = 4000;
+    float walkSpeed = 2500;
+    float sprintSpeed = 4000;
+    float crouchSpeed = 1500;
     private bool isGrounded = true;
     private bool isSprinting = false;
     public bool isCrouching = false;
