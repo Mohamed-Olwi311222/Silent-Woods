@@ -29,7 +29,7 @@ public class PlayerController : MonoBehaviour
 #endregion
 
 #region PlayerLookNeededProperties
-    [SerializeField] Transform cameraPosition;
+    [SerializeField] public Transform cameraPosition;
     [SerializeField] float topClamp = 90.0f;
     [SerializeField] float bottomClamp = -90.0f;
     float sensitivity = 50f;

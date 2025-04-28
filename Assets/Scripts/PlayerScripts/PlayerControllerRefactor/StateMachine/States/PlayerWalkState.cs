@@ -44,7 +44,6 @@ public class PlayerWalkState : IPlayerState
     }
      public void OnEnterState()
     {
-        Debug.Log("walk");
         noise.AmplitudeGain = 1f;
         noise.FrequencyGain = 0.6f;
     }

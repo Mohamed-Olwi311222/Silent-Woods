@@ -16,8 +16,11 @@ public class MonsterBehaviour : MonoBehaviour
     GameObject playerRef;
     [SerializeField] Transform[] patrolPoints;
     [SerializeField] bool triggerMeToStartPatrol = false;
+    [SerializeField] Camera mainCamera;
+    [SerializeField] GameObject deathPanel;
     public bool playerWasFound = false;
     [SerializeField] Animator animator;
+    [SerializeField] AudioClip deathSound;
     [Header("MonsterSound")]
     [SerializeField] private AudioClip[] walkingFXs;
     readonly float MoveVolume = 1f;
@@ -40,7 +43,13 @@ public class MonsterBehaviour : MonoBehaviour
         PatrolState patrolState = new PatrolState(monsterEntity, playerRef.transform.position, patrolPoints, animator);
         AggressiveState aggressiveState = new AggressiveState(monsterEntity, playerRef.transform, animator);
         AwareState awareState = new AwareState(monsterEntity, playerRef.transform.position, entityBehaviour, this, animator);
-        PlayerFoundState playerFoundState = new PlayerFoundState(monsterEntity);
+        PlayerFoundState playerFoundState = new PlayerFoundState(monsterEntity, 
+                                                                playerRef.GetComponent<PlayerController>().cameraPosition, 
+                                                                playerRef.transform, 
+                                                                animator, 
+                                                                mainCamera,
+                                                                deathPanel,
+                                                                deathSound);
 
         //transitions
         AddTransition(idleState, patrolState, MonsterTriggered());
@@ -49,6 +58,8 @@ public class MonsterBehaviour : MonoBehaviour
         AddTransition(aggressiveState, awareState, PlayerNotCaught());
         AddTransition(awareState, patrolState, PlayerIsLost());
         AddTransition(awareState, aggressiveState, PlayerIsFoundAgain());
+        AddTransition(awareState, playerFoundState, PlayerIsCaught());
+
 
 
         stateMachine.SetState(idleState);
@@ -86,7 +97,7 @@ public class MonsterBehaviour : MonoBehaviour
     Func<bool> PlayerIsCaught()
     {
         return () =>
-                Vector3.Distance(playerRef.transform.position, transform.position) < entityBehaviour.deathRadius;
+                Vector3.Distance(playerRef.transform.position, transform.position) <= entityBehaviour.deathRadius;
     }
     Func<bool> PlayerNotCaught()
     {

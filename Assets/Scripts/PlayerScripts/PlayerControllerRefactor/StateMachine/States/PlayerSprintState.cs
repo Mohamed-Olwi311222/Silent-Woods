@@ -52,7 +52,6 @@ public class PlayerSprintState : IPlayerState
     }
     public void OnEnterState()
     {
-        Debug.Log("sprint");
         noise.AmplitudeGain = 1.3f;
         noise.FrequencyGain = 0.7f;
     }

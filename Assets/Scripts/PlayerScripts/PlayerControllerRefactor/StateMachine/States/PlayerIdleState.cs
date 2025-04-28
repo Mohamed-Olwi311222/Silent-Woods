@@ -20,7 +20,6 @@ public class PlayerIdleState : IPlayerState
 
     public void OnEnterState()
     {
-        Debug.Log("idle");
         noise.AmplitudeGain = 0.7f;
         noise.FrequencyGain = 0.33f;
         playerController.moveInput.x = 0; 

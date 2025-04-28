@@ -29,7 +29,7 @@ public class AwareState : IState
         entityBehaviour.StartFindingPlayerTask(customDuration);
         entity.isStopped = false;
         Debug.Log("Aware State Enter");
-        animator.SetBool("isRunning", false);
+        animator.SetBool("isRunning", true);
         animator.SetBool("isPatroling", false);
     }
     
