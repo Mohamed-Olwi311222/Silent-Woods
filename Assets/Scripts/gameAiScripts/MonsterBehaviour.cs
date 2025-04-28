@@ -62,12 +62,10 @@ public class MonsterBehaviour : MonoBehaviour
             if (hearing.CanHear || fieldOfView.canSeePlayer)
             {
                 stepDelay = 0.4f;
-                Debug.Log("nigger run");
             }
             else
             {
                 stepDelay = 1.4f;
-                Debug.Log("Nigger walk");
             }
             stepTimer += Time.deltaTime;
             if (stepTimer >= stepDelay)
