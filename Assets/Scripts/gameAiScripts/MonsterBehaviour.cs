@@ -12,7 +12,7 @@ public class MonsterBehaviour : MonoBehaviour
     FieldOfView fieldOfView;
     Hearing hearing;
     StateMachine stateMachine;
-    NavMeshAgent bacteriaEntity;
+    NavMeshAgent monsterEntity;
     GameObject playerRef;
     [SerializeField] Transform[] patrolPoints;
     [SerializeField] bool triggerMeToStartPatrol = false;
@@ -23,7 +23,7 @@ public class MonsterBehaviour : MonoBehaviour
     void Awake()
     {
         stateMachine = new StateMachine();
-        bacteriaEntity = GetComponent<NavMeshAgent>();
+        monsterEntity = GetComponent<NavMeshAgent>();
         entityBehaviour = GetComponent<EntityBehaviour>();
         fieldOfView = GetComponent<FieldOfView>();
         hearing = GetComponent<Hearing>();
@@ -31,14 +31,14 @@ public class MonsterBehaviour : MonoBehaviour
         playerRef = fieldOfView.playerRef;
 
         //states
-        IdleState idleState = new IdleState(bacteriaEntity, animator);
-        PatrolState patrolState = new PatrolState(bacteriaEntity, playerRef.transform.position, patrolPoints, animator);
-        AggressiveState aggressiveState = new AggressiveState(bacteriaEntity, playerRef.transform, animator);
-        AwareState awareState = new AwareState(bacteriaEntity, playerRef.transform.position, entityBehaviour, this);
-        PlayerFoundState playerFoundState = new PlayerFoundState(bacteriaEntity);
+        IdleState idleState = new IdleState(monsterEntity, animator);
+        PatrolState patrolState = new PatrolState(monsterEntity, playerRef.transform.position, patrolPoints, animator);
+        AggressiveState aggressiveState = new AggressiveState(monsterEntity, playerRef.transform, animator);
+        AwareState awareState = new AwareState(monsterEntity, playerRef.transform.position, entityBehaviour, this, animator);
+        PlayerFoundState playerFoundState = new PlayerFoundState(monsterEntity);
 
         //transitions
-        AddTransition(idleState, patrolState, BacteriaTriggered());
+        AddTransition(idleState, patrolState, MonsterTriggered());
         AddTransition(patrolState, aggressiveState, CanSeeOrCanHear());
         AddTransition(aggressiveState, playerFoundState, PlayerIsCaught());
         AddTransition(aggressiveState, awareState, PlayerNotCaught());
@@ -51,7 +51,7 @@ public class MonsterBehaviour : MonoBehaviour
 
     }
 
-    Func<bool> BacteriaTriggered()
+    Func<bool> MonsterTriggered()
     {
         return () => triggerMeToStartPatrol; //TODO When the player picks up a key or something
     }

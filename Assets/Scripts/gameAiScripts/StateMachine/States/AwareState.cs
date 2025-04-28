@@ -6,16 +6,18 @@ public class AwareState : IState
     public NavMeshAgent entity;
     public Vector3 playerPosition;
     EntityBehaviour entityBehaviour;
-    MonsterBehaviour bacteria;
+    MonsterBehaviour monster;
+    private Animator animator;
     float customDuration = 6.5f; //Affects entity rotation
 
 
-    public AwareState(NavMeshAgent entity, Vector3 playerPosition, EntityBehaviour entityBehaviour, MonsterBehaviour bacteria)
+    public AwareState(NavMeshAgent entity, Vector3 playerPosition, EntityBehaviour entityBehaviour, MonsterBehaviour monster, Animator animator)
     {
         this.entity = entity;
         this.playerPosition = playerPosition;
         this.entityBehaviour = entityBehaviour;
-        this.bacteria = bacteria;
+        this.monster = monster;
+        this.animator = animator;
     }
     public void FrameUpdate()
     {
@@ -27,6 +29,8 @@ public class AwareState : IState
         entityBehaviour.StartFindingPlayerTask(customDuration);
         entity.isStopped = false;
         Debug.Log("Aware State Enter");
+        animator.SetBool("isRunning", false);
+        animator.SetBool("isPatroling", false);
     }
     
     public void OnExitState()
