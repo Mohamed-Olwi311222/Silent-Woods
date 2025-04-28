@@ -13,7 +13,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] LayerMask ground;
     [SerializeField] private float groundcheckRaycastLength = 1.15f;
 #region PlayerStaminaNeededProperties
-    public readonly float maximumStamina = 450;
+    public float maximumStamina = 450;
     public float currentStamina;
     public readonly float staminaRegen = 5f;
     public readonly float staminaDrain = 50f;
@@ -51,9 +51,9 @@ public class PlayerController : MonoBehaviour
     [SerializeField] AudioClip walkingFX;
     public enum SoundsRanges
     {
-        Walking = 25,
-        Crouching = 15,
-        Sprinting = 35
+        Walking = 10,
+        Crouching = 5,
+        Sprinting = 15
     }
 #endregion
     private void Awake()

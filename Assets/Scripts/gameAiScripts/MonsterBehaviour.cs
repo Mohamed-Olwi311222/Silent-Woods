@@ -15,7 +15,6 @@ public class MonsterBehaviour : MonoBehaviour
     NavMeshAgent monsterEntity;
     GameObject playerRef;
     [SerializeField] Transform[] patrolPoints;
-    [SerializeField] bool triggerMeToStartPatrol = false;
     [SerializeField] Camera mainCamera;
     [SerializeField] GameObject deathPanel;
     public bool playerWasFound = false;
@@ -88,7 +87,7 @@ public class MonsterBehaviour : MonoBehaviour
     }
     Func<bool> MonsterTriggered()
     {
-        return () => triggerMeToStartPatrol; //TODO When the player picks up a key or something
+        return () => StartGame.playerEntered == true; 
     }
     public Func<bool> CanSeeOrCanHear()
     {

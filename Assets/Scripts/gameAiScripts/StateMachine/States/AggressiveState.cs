@@ -23,7 +23,7 @@ public class AggressiveState : IState
     {
         Debug.Log("Aggressive State Enter");
         entity.isStopped = false;
-        entity.speed = 5;
+        entity.speed = 7;
         animator.SetBool("isRunning", true);
         animator.SetBool("isPatroling", false);
     }

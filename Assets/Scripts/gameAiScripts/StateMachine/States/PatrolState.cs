@@ -30,7 +30,7 @@ public class PatrolState : IState
     {
         if (patrolPoints.Length == 0)
             return;
-        entity.speed = 0.5f;
+        entity.speed = 1.5f;
         entity.SetDestination(patrolPoints[patrolPointsIdx].position);
         patrolPointsIdx = (patrolPointsIdx + 1) % patrolPoints.Length;
         return;
