@@ -26,7 +26,6 @@ public class PlayerController : MonoBehaviour
     private bool isSprinting = false;
     public bool isCrouching = false;
     private bool isMoving = false;
-    private bool isIdle = true;
     private float dragFactor = 25f;
     private float customDrag;
     private bool sprintButtonIsPressed = false;
@@ -54,7 +53,6 @@ public class PlayerController : MonoBehaviour
 
 
     [Header("Camera Movement")]
-    //[SerializeField] C firstPersonCamera;
     [SerializeField] Transform cameraPosition;
     [SerializeField] float topClamp = 90.0f;
     [SerializeField] float bottomClamp = -90.0f;
@@ -76,7 +74,14 @@ public class PlayerController : MonoBehaviour
         myCapsuleColliderCrouchHeight = myCapsuleColliderHeight / 2;
     }
 
-
+    void Update()
+    {
+        Checkgrounded();
+    }
+    private void Checkgrounded()
+    {
+        isGrounded = Physics.Raycast(mySphereCollider.transform.position, Vector3.down, mySphereCollider.radius + 0.05f, ground);
+    }
     void FixedUpdate()
     {
         Move();
@@ -152,6 +157,7 @@ public class PlayerController : MonoBehaviour
         forceVector = new Vector3(moveInput.x * velocity * customDrag, 0, moveInput.y * velocity * customDrag);
         myRigidbody.AddRelativeForce(forceVector, ForceMode.Force);//moves the player relative to his local axes
     }
+
     public void Sprint(InputAction.CallbackContext context)
     {
         sprintButtonIsPressed = true;
