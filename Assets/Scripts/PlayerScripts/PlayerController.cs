@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -35,7 +36,7 @@ public class PlayerController : MonoBehaviour
 
 
     [Header("PlayerSound")]
-    [SerializeField] AudioClip walkingFX;
+    [SerializeField] private AudioClip[] walkingFXs;
     readonly float defaultMoveVolume = 0.8f;
     readonly float crouchMoveVolume = 0.5f;
     readonly float sprintMoveVolume = 1f;
@@ -49,7 +50,8 @@ public class PlayerController : MonoBehaviour
         Crouching = 15,
         Walking = 25
     }
-
+    private bool randomSoundCorutineStarted = false;
+    [SerializeField] private AudioClip[] surrondSounds;
 
 
     [Header("Camera Movement")]
@@ -77,6 +79,17 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
         Checkgrounded();
+        if (!randomSoundCorutineStarted)
+        {
+            StartCoroutine(PlayRandomSurrondSound());
+        }
+    }
+    IEnumerator PlayRandomSurrondSound()
+    {
+        randomSoundCorutineStarted = true;
+        yield return new WaitForSeconds(40f);
+        AudioManager.instance.PlayRandomSoundFXClip(surrondSounds, transform, 1f, 0f, Sound.SoundType.Default, false);
+        randomSoundCorutineStarted = false;
     }
     private void Checkgrounded()
     {
@@ -113,7 +126,7 @@ public class PlayerController : MonoBehaviour
             stepTimer += Time.fixedDeltaTime;
             if (stepTimer >= stepDelay)
             {
-                AudioManager.instance.PlaySoundFXClip(walkingFX, transform, 1f * currentMoveVolume, playerSoundRange, Sound.SoundType.Dangerous, true);
+                AudioManager.instance.PlayRandomSoundFXClip(walkingFXs, transform, 1f * currentMoveVolume, playerSoundRange, Sound.SoundType.Dangerous, true);
                 stepTimer = 0f;
             }
         }

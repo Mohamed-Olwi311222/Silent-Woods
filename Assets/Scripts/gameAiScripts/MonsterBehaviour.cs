@@ -18,6 +18,11 @@ public class MonsterBehaviour : MonoBehaviour
     [SerializeField] bool triggerMeToStartPatrol = false;
     public bool playerWasFound = false;
     [SerializeField] Animator animator;
+    [Header("MonsterSound")]
+    [SerializeField] private AudioClip[] walkingFXs;
+    readonly float MoveVolume = 1f;
+    private float stepTimer = 0f;
+    private float stepDelay = 0.5f; 
     private void AddTransition(IState from, IState to, Func<bool> condition) =>
                                                                 stateMachine.AddTransition(from, to, condition);
     void Awake()
@@ -50,7 +55,28 @@ public class MonsterBehaviour : MonoBehaviour
 
 
     }
-
+    private void HandleSoundFX()
+    {
+        if (!monsterEntity.isStopped)
+        {
+            if (hearing.CanHear || fieldOfView.canSeePlayer)
+            {
+                stepDelay = 0.4f;
+                Debug.Log("nigger run");
+            }
+            else
+            {
+                stepDelay = 1.4f;
+                Debug.Log("Nigger walk");
+            }
+            stepTimer += Time.deltaTime;
+            if (stepTimer >= stepDelay)
+            {
+                AudioManager.instance.PlayRandomSoundFXClip(walkingFXs, transform, 1f * MoveVolume, 0f, Sound.SoundType.Default, true);
+                stepTimer = 0f;
+            }
+        }
+    }
     Func<bool> MonsterTriggered()
     {
         return () => triggerMeToStartPatrol; //TODO When the player picks up a key or something
@@ -84,6 +110,7 @@ public class MonsterBehaviour : MonoBehaviour
     }
     void Update()
     {
+        HandleSoundFX();
         stateMachine.FrameUpdate();
     }
 
